@@ -25,7 +25,7 @@ There are no pending CSRs as it can not contact the API server, so we can renew 
 
 SSH access to affected node and stop the kubelet service with sudo user.
 
-# systemctl stop kubelet
+> systemctl stop kubelet
 
 Backup all files inside /var/lib/kubelet/pki. After the certificates are backed up, delete all the files under /var/lib/kubelet/pki.
 
