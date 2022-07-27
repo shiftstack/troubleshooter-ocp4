@@ -16,10 +16,10 @@ We can try to get master back to healthy.
 Seems that kubelet is failing as per following evidence:
 
 ```
-Jul 19 11:35:02 v0003594.entw.bund.drv hyperkube[1713]: E0719 11:35:02.335495    1713 kubelet.go:2303] "Error getting node" err="node \"v0003594.entw.bund.drv\" not found"
-Jul 19 11:35:02 v0003594.entw.bund.drv hyperkube[1713]: E0719 11:35:02.397515    1713 transport.go:112] "No valid client certificate is found but the server is not responsive. A restart may be necessary to retrieve new initial credentials." lastCertificateAvailabilityTime="2022-07-19 10:30:02.115098063 +0000 UTC m=+0.534789930" shutdownThreshold="5m0s"
-Jul 19 11:35:02 v0003594.entw.bund.drv hyperkube[1713]: E0719 11:35:02.436898    1713 kubelet.go:2303] "Error getting node" err="node \"v0003594.entw.bund.drv\" not found"
-Jul 19 11:35:02 v0003594.entw.bund.drv hyperkube[1713]: I0719 11:35:02.501282    1713 csi_plugin.go:1031] Failed to contact API server when waiting for CSINode publishing: csinodes.storage.k8s.io "v0003594.entw.bund.drv" is forbidden: User "system:anonymous" cannot get resource "csinodes" in API group "storage.k8s.io" at the cluster scope
+Jul 19 11:35:02 v0003594.example.com hyperkube[1713]: E0719 11:35:02.335495    1713 kubelet.go:2303] "Error getting node" err="node \"v0003594.example.com\" not found"
+Jul 19 11:35:02 v0003594.example.com hyperkube[1713]: E0719 11:35:02.397515    1713 transport.go:112] "No valid client certificate is found but the server is not responsive. A restart may be necessary to retrieve new initial credentials." lastCertificateAvailabilityTime="2022-07-19 10:30:02.115098063 +0000 UTC m=+0.534789930" shutdownThreshold="5m0s"
+Jul 19 11:35:02 v0003594.example.com hyperkube[1713]: E0719 11:35:02.436898    1713 kubelet.go:2303] "Error getting node" err="node \"v0003594.example.com\" not found"
+Jul 19 11:35:02 v0003594.example.com hyperkube[1713]: I0719 11:35:02.501282    1713 csi_plugin.go:1031] Failed to contact API server when waiting for CSINode publishing: csinodes.storage.k8s.io "v0003594.example.com" is forbidden: User "system:anonymous" cannot get resource "csinodes" in API group "storage.k8s.io" at the cluster scope
 There are no pending CSRs as it can not contact the API server, so we can renew the kubelet certs manually:
 ```
 
