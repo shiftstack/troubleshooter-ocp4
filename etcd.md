@@ -49,7 +49,7 @@ $ etcdctl get / --prefix --keys-only > keys.txt
 $ exit
 
 oc cp <etcd pod>:/keys.txt keys.txt
-cat keys.txt | grep event |cut -d/ -f5| sort | uniq -c | sort -n --rev
+cat keys.txt | grep event |cut -d/ -f3,4| sort | uniq -c | sort -n --rev      (where you can experiment with -f3,4,5)
 ```
 
 or
