@@ -43,6 +43,18 @@ oc get secrets -A --no-headers | awk '{ns[$1]++}END{for (i in ns) print i,ns[i]}
 # Events per component
 
 ```
+oc --as system:admin -n openshift-etcd get -l k8s-app=etcd pods
+oc rsh <etcd pod>     
+$ etcdctl get / --prefix --keys-only > keys.txt
+$ exit
+
+oc cp <etcd pod>:/keys.txt keys.txt
+cat keys.txt | grep event |cut -d/ -f5| sort | uniq -c | sort -n --rev
+```
+
+or
+
+```
 awk '{print $1 " " $2}' cm-watch.log  | sort | uniq -c | sort -n --rev | head -n 10
 ```
 
@@ -55,9 +67,9 @@ awk '{print $1 " " $2}' cm-watch.log  | sort | uniq -c | sort -n --rev | head -n
 
 
 
-oc get --raw /metrics | grep etcd_object_counts | grep events
+<!-- oc get --raw /metrics | grep etcd_object_counts | grep events
 oc --as system:admin -n openshift-kube-apiserver get -o json events | jq -r '.items[].metadata.creationTimestamp' | sort | head -n3
 oc --as system:admin -n openshift-etcd get -l k8s-app=etcd pods
 
 
-get / --prefix --keys-only | grep event | sort | uniq -c | sort -n --rev
+get / --prefix --keys-only | grep event | sort | uniq -c | sort -n --rev -->
