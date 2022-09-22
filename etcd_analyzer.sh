@@ -6,11 +6,6 @@ ETCD0=$(oc --as system:admin -n openshift-etcd get -l k8s-app=etcd pods|tail -1|
 ETCD1=$(oc --as system:admin -n openshift-etcd get -l k8s-app=etcd pods|tail -2|head -1| cut -d ' ' -f1)
 ETCD2=$(oc --as system:admin -n openshift-etcd get -l k8s-app=etcd pods|tail -3|head -1| cut -d ' ' -f1)
 
-# oc exec $(oc --as system:admin -n openshift-etcd get -l k8s-app=etcd pods|tail -1| cut -d ' ' -f1)  -c etcdctl -n openshift-etcd --  etcdctl watch / --prefix  --write-out=fields
-# oc exec $(oc --as system:admin -n openshift-etcd get -l k8s-app=etcd pods|tail -2|head -1| cut -d ' ' -f1)  -c etcdctl -n openshift-etcd --  etcdctl watch / --prefix  --write-out=fields
-# oc exec $(oc --as system:admin -n openshift-etcd get -l k8s-app=etcd pods|tail -3|head -1| cut -d ' ' -f1)  -c etcdctl -n openshift-etcd --  etcdctl watch / --prefix  --write-out=fields
-
-
 
 echo -e ""
 echo -e "-[$ETCD0]--------------------"
