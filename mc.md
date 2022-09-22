@@ -1,6 +1,7 @@
 # Machine config
 
+> oc debug node/worker0 -- chroot /host touch /run/machine-config-daemon-force
 
 ## pause mcp
 
-> oc patch mcp/<mcp_name> --patch '{"spec":{"paused":true}}' --type=merge
+oc patch --type=merge --patch='{"spec":{"paused":true}}' machineconfigpool/master
