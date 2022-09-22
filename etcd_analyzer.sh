@@ -20,7 +20,7 @@ oc exec $ETCD0 -c etcdctl -- etcdctl endpoint status -w table
 echo -e "IPs:"
 oc exec $ETCD0 -c etcd -- ip a s dev br-ex|grep inet
 echo -e "Errors and dropped packets:"
-or i in $(oc exec $ETCD0 -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do oc exec $ETCD0 -c etcd -- ip -s link show dev $i; done
+for i in $(oc exec $ETCD0 -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do oc exec $ETCD0 -c etcd -- ip -s link show dev $i; done
 echo -e ""
 echo -e "Latency against API is $(curl -k https://api.$(echo $ETCD0| sed 's/.*://').com -w "%{time_connect}\n"|tail -1)"
 echo -e ""
