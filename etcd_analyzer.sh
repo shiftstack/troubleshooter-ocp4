@@ -18,7 +18,7 @@ echo -e "-[$ETCD0]--------------------"
 echo -e ""
 oc exec $ETCD0 -c etcdctl -- etcdctl endpoint status -w table
 echo -e "IPs:"
-oc exec $ETCD0 -c etcd -- ip a s dev br-ex|grep inet
+for i in $(oc exec $ETCD0 -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do echo $i && oc exec $ETCD0 -c etcd -- ip a s|grep inet|grep -v inet6|grep -v '127.'|head -2; done
 echo -e "Errors and dropped packets:"
 for i in $(oc exec $ETCD0 -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do oc exec $ETCD0 -c etcd -- ip -s link show dev $i; done
 echo -e ""
@@ -39,7 +39,7 @@ echo -e ""
 oc exec $ETCD1 -c etcdctl -- etcdctl endpoint status -w table
 echo -e ""
 echo -e "IPs:"
-oc exec $ETCD1 -c etcd -- ip a s dev br-ex|grep inet
+for i in $(oc exec $ETCD1 -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do echo $i && oc exec $ETCD0 -c etcd -- ip a s|grep inet|grep -v inet6|grep -v '127.'|head -2; done
 echo -e "Errors and dropped packets:"
 for i in $(oc exec $ETCD1 -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do oc exec $ETCD0 -c etcd -- ip -s link show dev $i; done
 echo -e ""
@@ -60,7 +60,7 @@ echo -e ""
 oc exec $ETCD2 -c etcdctl -- etcdctl endpoint status -w table
 echo -e ""
 echo -e "IPs:"
-oc exec $ETCD2 -c etcd -- ip a s dev br-ex|grep inet
+for i in $(oc exec $ETCD2 -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do echo $i && oc exec $ETCD0 -c etcd -- ip a s|grep inet|grep -v inet6|grep -v '127.'|head -2; done
 echo -e "Errors and dropped packets:"
 for i in $(oc exec $ETCD2 -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do oc exec $ETCD0 -c etcd -- ip -s link show dev $i; done
 echo -e ""
