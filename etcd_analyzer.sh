@@ -51,12 +51,12 @@ echo -e "COMPACTION: \n$(oc logs ${ETCD[1]} -c etcd|grep compaction|tail -8|cut 
 echo -e ""
 echo -e "-[echo ${ETCD[2]}]--------------------"
 echo -e ""
-oc exec echo ${ETCD[2]} -c etcdctl -- etcdctl endpoint status -w table
+oc exec ${ETCD[2]} -c etcdctl -- etcdctl endpoint status -w table
 echo -e ""
 echo -e "IPs:"
-for i in $(oc exec ${ETCD[2]} -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do echo $i && oc exec echo ${ETCD[2]} -c etcd -- ip a s|grep inet|grep -v inet6|grep -v '127.'|head -2; done
+for i in $(oc exec ${ETCD[2]} -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do echo $i && oc exec ${ETCD[2]} -c etcd -- ip a s|grep inet|grep -v inet6|grep -v '127.'|head -2; done
 echo -e "Errors and dropped packets:"
-for i in $(oc exec ${ETCD[2]} -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do oc exec echo ${ETCD[2]} -c etcd -- ip -s link show dev $i; done
+for i in $(oc exec ${ETCD[2]} -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do oc exec ${ETCD[2]} -c etcd -- ip -s link show dev $i; done
 echo -e ""
 echo -e "Latency against API is $(curl -k https://api.$(echo ${ETCD[2]}| sed 's/.*://').com -w "%{time_connect}\n"|tail -1)"
 echo -e ""
