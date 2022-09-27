@@ -86,6 +86,8 @@ echo -e ""
 echo -e "[BIGGEST CONSUMERS]"
 echo -e ""
 oc exec ${ETCD[0]} -c etcdctl -n openshift-etcd -- etcdctl get / --prefix --keys-only > keysonly.txt
+cat keysonly.txt | grep event |cut -d/ -f3,4| sort | uniq -c | sort -n --rev |head -10
+echo -e "..."
 cat keysonly.txt | grep event |cut -d/ -f3,4,5| sort | uniq -c | sort -n --rev |head -10
 
 # oc exec ${ETCD[0]}  -c etcdctl -n openshift-etcd --  etcdctl watch / --prefix  --write-out=fields > fields.txt
