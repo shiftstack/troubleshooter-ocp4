@@ -54,21 +54,21 @@ echo -e ""
 oc exec echo ${ETCD[2]} -c etcdctl -- etcdctl endpoint status -w table
 echo -e ""
 echo -e "IPs:"
-for i in $(oc exec echo ${ETCD[2]} -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do echo $i && oc exec echo ${ETCD[2]} -c etcd -- ip a s|grep inet|grep -v inet6|grep -v '127.'|head -2; done
+for i in $(oc exec ${ETCD[2]} -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do echo $i && oc exec echo ${ETCD[2]} -c etcd -- ip a s|grep inet|grep -v inet6|grep -v '127.'|head -2; done
 echo -e "Errors and dropped packets:"
-for i in $(oc exec echo ${ETCD[2]} -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do oc exec echo ${ETCD[2]} -c etcd -- ip -s link show dev $i; done
+for i in $(oc exec ${ETCD[2]} -c etcd -- ls /sys/class/net|grep -v veth|grep -v lo); do oc exec echo ${ETCD[2]} -c etcd -- ip -s link show dev $i; done
 echo -e ""
-echo -e "Latency against API is $(curl -k https://api.$(echo echo ${ETCD[2]}| sed 's/.*://').com -w "%{time_connect}\n"|tail -1)"
+echo -e "Latency against API is $(curl -k https://api.$(echo ${ETCD[2]}| sed 's/.*://').com -w "%{time_connect}\n"|tail -1)"
 echo -e ""
-echo -e "LOGS \nstart on $(oc logs echo ${ETCD[2]} -c etcd|head -60|tail -1|cut -d ':' -f3|cut -c 2-14)"
-echo -e "ends on $(oc logs echo ${ETCD[2]} -c etcd|tail -1|cut -d ':' -f3|cut -c 2-14)"
+echo -e "LOGS \nstart on $(oc logs ${ETCD[2]} -c etcd|head -60|tail -1|cut -d ':' -f3|cut -c 2-14)"
+echo -e "ends on $(oc logs ${ETCD[2]} -c etcd|tail -1|cut -d ':' -f3|cut -c 2-14)"
 echo -e ""
 echo -e "Found $(oc logs ${ETCD[2]} -c etcd|grep overloaded|wc -l) overloaded messages"
 echo -e "Found $(oc logs ${ETCD[2]} -c etcd|grep 'took too long'|wc -l) took too long messages"
 echo -e "Found $(oc logs ${ETCD[2]} -c etcd|grep clock|wc -l) clock difference messages"
 echo -e "Found $(oc logs ${ETCD[2]} -c etcd|grep heatbeat|wc -l) heartbeat messages"
 echo -e ""
-echo -e "COMPACTION: \n$(oc logs echo ${ETCD[2]} -c etcd|grep compaction|tail -8|cut -d ':' -f10|cut -c 2-12)"
+echo -e "COMPACTION: \n$(oc logs ${ETCD[2]} -c etcd|grep compaction|tail -8|cut -d ':' -f10|cut -c 2-12)"
 echo -e ""
 
 echo -e ""
